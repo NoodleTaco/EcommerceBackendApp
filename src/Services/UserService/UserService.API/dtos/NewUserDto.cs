@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace UserService.API.dtos
 {
-    public class UserDto
+    public class NewUserDto
     {
-        public int Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public string Token { get; set; }
     }
 }
