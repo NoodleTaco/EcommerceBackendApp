@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace UserService.API.dtos
 {
-    public class CreateUserDto
+    public class LoginDto
     {
         [Required]
-        public string? Username { get; set; }
-        
+        public string Username { get; set; }
+
         [Required]
-        [EmailAddress]
-        public string? Email { get; set; }
-        
-        [Required]
-        public string? Password { get; set; }
+        public string Password { get; set; }
     }
 }

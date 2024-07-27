@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using UserService.API.helpers;
 using UserService.Core.interfaces;
 using UserService.Core.models;
 using UserService.Infrastructure.data;
+using UserService.Infrastructure.repositories;
 using UserService.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,6 +80,7 @@ builder.Services.AddAuthentication(options => {
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
@@ -93,6 +96,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await AdminSeeder.SeedAdminUser(app.Services);
 
 app.Run();
 
