@@ -25,6 +25,7 @@ namespace ProductService.API.controllers
         }
 
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10){
             if(!ModelState.IsValid){
@@ -38,6 +39,7 @@ namespace ProductService.API.controllers
             return Ok(productDto);
         }
 
+        [Authorize]
         [HttpGet ("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id){
             if(!ModelState.IsValid){
@@ -53,6 +55,7 @@ namespace ProductService.API.controllers
             return Ok(product.ToProductDto());
         }
         
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto productDto){
             if(!ModelState.IsValid){
@@ -66,6 +69,7 @@ namespace ProductService.API.controllers
             return CreatedAtAction(nameof(GetById), new {id = productModel.Id}, productModel.ToProductDto());
         }
 
+        [Authorize]
         [HttpPut]
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateProductDto updateProductDto){
@@ -82,6 +86,7 @@ namespace ProductService.API.controllers
             return Ok(productModel.ToProductDto());
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id){
