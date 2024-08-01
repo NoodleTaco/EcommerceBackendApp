@@ -54,6 +54,40 @@ namespace ProductService.API.controllers
 
             return Ok(product.ToProductDto());
         }
+
+        [Authorize]
+        [HttpGet ]
+        [Route("{id}/quantity")]
+        public async Task<IActionResult> GetQuantityById([FromRoute] int id){
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
+            var product = await _productRepository.GetProductByIdAsync(id);
+            
+            if(product == null){
+                return NotFound();
+            }
+
+            return Ok(product.Quantity);
+        }
+
+        [Authorize]
+        [HttpGet ]
+        [Route("{id}/price")]
+        public async Task<IActionResult> GetPriceById([FromRoute] int id){
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
+            var product = await _productRepository.GetProductByIdAsync(id);
+            
+            if(product == null){
+                return NotFound();
+            }
+
+            return Ok(product.Price);
+        }
         
         [Authorize]
         [HttpPost]
@@ -84,6 +118,22 @@ namespace ProductService.API.controllers
             await _productRepository.UpdateProductAsync(productModel);
 
             return Ok(productModel.ToProductDto());
+        }
+
+        [HttpPut("{id}/quantity")]
+        public async Task<IActionResult> UpdateProductQuantity(int id, [FromBody] int quantityChange)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
+            if (product == null)
+                return NotFound();
+
+            if (product.Quantity - quantityChange < 0)
+                return BadRequest("Not enough inventory");
+
+            product.Quantity -= quantityChange;
+            await _productRepository.UpdateProductAsync(product);
+
+            return Ok(product);
         }
 
         [Authorize]
